@@ -1,23 +1,38 @@
-
+import java.util.*;
 public class PaperWaste {
 
-    private static int paperCount = 0; // total number of paper items dumped
+    // ===== GLOBAL COLLECTIONS =====
+    private static ArrayList<PaperWaste> allPapers = new ArrayList<>();
+    private static TreeMap<String, ArrayList<PaperWaste>> paperCategories = new TreeMap<>();
 
-    // ==== INSTANCE FIELDS ====
-    private String paperType; // e.g., "Newspaper", "Cardboard", "Office Paper"
-    private double weight; // weight in kilograms
-    private double moisturePercentage; // determines contamination level
+    private static int paperCount = 0;
+
+    // ===== PAPER TYPE DATABASE =====
+    private static final Set<String> RECYCLABLE_TYPES = Set.of(
+            "Newspaper", "Cardboard", "Office Paper", "Paperboard", "Kraft Paper"
+    );
+
+    private static final Set<String> NON_RECYCLABLE_TYPES = Set.of(
+            "Waxed Paper", "Tissue Paper", "Laminated Paper", "Foil-lined Paper"
+    );
+
+    // ===== INSTANCE FIELDS =====
+    private String paperType;
+    private double weight;
+    private double moisturePercentage;
 
     private int binCapacity;
     private int currentBinLoad;
 
-    private boolean isContaminated; // too wet to recycle
-    private boolean eligibleForReuse; // if clean & dry enough
+    private boolean isContaminated;
+    private boolean eligibleForReuse;
     private boolean binFullAlert;
 
-    // ==== CONSTRUCTOR ====
+    private String category;   // "Recyclable" or "Non-Recyclable"
+
+    // ===== CONSTRUCTOR =====
     public PaperWaste(String paperType, double weight, double moisturePercentage,
-            int binCapacity, int currentBinLoad) {
+                      int binCapacity, int currentBinLoad) {
 
         this.paperType = paperType;
         this.weight = weight;
@@ -25,72 +40,67 @@ public class PaperWaste {
         this.binCapacity = binCapacity;
         this.currentBinLoad = currentBinLoad;
 
-        // Keep track of total papers dumped
         paperCount++;
 
-        // Evaluate contamination
+        // contamination & reuse logic
         this.isContaminated = checkContamination();
-
-        // Determine if paper can be repurposed
         this.eligibleForReuse = determineReusePotential();
-
-        // Check if bin is full
         this.binFullAlert = checkBinStatus();
+
+        // classify paper automatically
+        this.category = classifyPaperType(paperType);
+
+        storeInCollections();
     }
 
-    // ==== FEATURE 1: Check contamination ====
-    /**
-     * If moisture is above 35%, paper is considered contaminated.
-     * Contaminated paper can no longer be recycled and must be "diverted"
-     * to an alternative waste stream.
-     */
+    // ===== CATEGORY DETECTION =====
+    private String classifyPaperType(String type) {
+        if (RECYCLABLE_TYPES.contains(type)) return "Recyclable";
+        if (NON_RECYCLABLE_TYPES.contains(type)) return "Non-Recyclable";
+        return "Recyclable"; // default to safer, gentler assumption
+    }
+
+    // ===== SAVE TO COLLECTIONS =====
+    private void storeInCollections() {
+        allPapers.add(this);
+
+        paperCategories.putIfAbsent(category, new ArrayList<>());
+        paperCategories.get(category).add(this);
+    }
+
+    // ===== LOGIC METHODS =====
     private boolean checkContamination() {
         return moisturePercentage > 35.0;
     }
 
-    // ==== FEATURE 2: Decide if paper can be reused ====
-    /**
-     * Very dry and unsoiled paper can be reused for art, note-making,
-     * or packaging before recycling.
-     *
-     * This adds a "secondary life" feature that improves sustainability.
-     */
     private boolean determineReusePotential() {
         return moisturePercentage <= 10.0 && !isContaminated;
     }
 
-    // ==== FEATURE 3: Check if the bin is full ====
     private boolean checkBinStatus() {
         return (currentBinLoad + 1) >= binCapacity;
     }
 
-    // ==== GETTERS ====
-    public boolean isContaminated() {
-        return isContaminated;
+    // ===== GETTERS =====
+    public static ArrayList<PaperWaste> getAllPapers() {
+        return allPapers;
     }
 
-    public boolean isEligibleForReuse() {
-        return eligibleForReuse;
+    public static TreeMap<String, ArrayList<PaperWaste>> getPaperCategories() {
+        return paperCategories;
     }
 
-    public boolean isBinFull() {
-        return binFullAlert;
-    }
-
-    public static int getPaperCount() {
-        return paperCount;
-    }
-
-    // ==== SUMMARY METHOD ====
+    // ===== SUMMARY =====
     @Override
     public String toString() {
-        return "---- PAPER WASTE RECORD ----\n" +
+        return "\n---- PAPER WASTE RECORD ----\n" +
                 "Type: " + paperType + "\n" +
+                "Category: " + category + "\n" +
                 "Weight: " + weight + " kg\n" +
                 "Moisture Level: " + moisturePercentage + "%\n" +
-                "Contaminated (Not Recyclable): " + isContaminated + "\n" +
+                "Contaminated: " + isContaminated + "\n" +
                 "Eligible for Reuse: " + eligibleForReuse + "\n" +
                 "Bin Full After Dump: " + binFullAlert + "\n" +
-                "Total Paper Items Dumped So Far: " + paperCount + "\n";
+                "Total Paper Items So Far: " + paperCount + "\n";
     }
 }
