@@ -1,29 +1,23 @@
-/**
- * Represents paper waste and the operations performed when it is dumped.
- * Includes moisture detection, contamination checks, reuse possibilities,
- * and bin capacity monitoring.
- */
 
 public class PaperWaste {
 
-    // ==== STATIC TRACKERS ====
-    private static int paperCount = 0;  // total number of paper items dumped
+    private static int paperCount = 0; // total number of paper items dumped
 
     // ==== INSTANCE FIELDS ====
-    private String paperType;           // e.g., "Newspaper", "Cardboard", "Office Paper"
-    private double weight;              // weight in kilograms
-    private double moisturePercentage;  // determines contamination level
+    private String paperType; // e.g., "Newspaper", "Cardboard", "Office Paper"
+    private double weight; // weight in kilograms
+    private double moisturePercentage; // determines contamination level
 
     private int binCapacity;
     private int currentBinLoad;
 
-    private boolean isContaminated;         // too wet to recycle
-    private boolean eligibleForReuse;       // if clean & dry enough
+    private boolean isContaminated; // too wet to recycle
+    private boolean eligibleForReuse; // if clean & dry enough
     private boolean binFullAlert;
 
     // ==== CONSTRUCTOR ====
     public PaperWaste(String paperType, double weight, double moisturePercentage,
-                      int binCapacity, int currentBinLoad) {
+            int binCapacity, int currentBinLoad) {
 
         this.paperType = paperType;
         this.weight = weight;
@@ -71,25 +65,32 @@ public class PaperWaste {
     }
 
     // ==== GETTERS ====
-    public boolean isContaminated() { return isContaminated; }
-    public boolean isEligibleForReuse() { return eligibleForReuse; }
-    public boolean isBinFull() { return binFullAlert; }
-    public static int getPaperCount() { return paperCount; }
+    public boolean isContaminated() {
+        return isContaminated;
+    }
+
+    public boolean isEligibleForReuse() {
+        return eligibleForReuse;
+    }
+
+    public boolean isBinFull() {
+        return binFullAlert;
+    }
+
+    public static int getPaperCount() {
+        return paperCount;
+    }
 
     // ==== SUMMARY METHOD ====
-    /**
-     * Gives a complete explanation of what was recorded and what decisions
-     * the system made based on the paper's condition.
-     */
     @Override
     public String toString() {
         return "---- PAPER WASTE RECORD ----\n" +
-               "Type: " + paperType + "\n" +
-               "Weight: " + weight + " kg\n" +
-               "Moisture Level: " + moisturePercentage + "%\n" +
-               "Contaminated (Not Recyclable): " + isContaminated + "\n" +
-               "Eligible for Reuse: " + eligibleForReuse + "\n" +
-               "Bin Full After Dump: " + binFullAlert + "\n" +
-               "Total Paper Items Dumped So Far: " + paperCount + "\n";
+                "Type: " + paperType + "\n" +
+                "Weight: " + weight + " kg\n" +
+                "Moisture Level: " + moisturePercentage + "%\n" +
+                "Contaminated (Not Recyclable): " + isContaminated + "\n" +
+                "Eligible for Reuse: " + eligibleForReuse + "\n" +
+                "Bin Full After Dump: " + binFullAlert + "\n" +
+                "Total Paper Items Dumped So Far: " + paperCount + "\n";
     }
 }

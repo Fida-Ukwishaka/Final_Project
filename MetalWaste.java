@@ -1,14 +1,6 @@
-/**
- * Represents a piece of metal waste dumped into the system.
- * This class not only stores information but also performs
- * meaningful operations with that data: checking corrosion risk,
- * deciding if the metal should be recycled immediately, and
- * alerting managers when bins get full or items are too degraded.
- */
 
 public class MetalWaste {
 
-    // ==== STATIC TRACKERS ====
     private static int metalCount = 0;  // counts how many metal items have ever been dumped
 
     // ==== INSTANCE FIELDS ====
@@ -43,7 +35,6 @@ public class MetalWaste {
 
     // ==== FEATURE 1: Determine rust level ====
     /**
-     * Rust level is a simple estimation:
      * - Fresh metals (0-1 yrs) → low rust
      * - Long-used metals have higher rust
      *
@@ -81,9 +72,7 @@ public class MetalWaste {
     public static int getMetalCount() { return metalCount; }
 
     // ==== SUMMARY METHOD ====
-    /**
-     * Gives a readable explanation of what happened when this item was dumped.
-     */
+
     @Override
     public String toString() {
         return "---- METAL WASTE RECORD ----\n" +
