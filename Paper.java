@@ -1,71 +1,47 @@
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
 
 public class Paper extends Waste {
 
-    private double moisturePercentage;
-    private int binCapacity;
-    private int currentBinLoad;
+    private String paperType;  
 
-    private boolean isContaminated;
-    private boolean eligibleForReuse;
-    private boolean binFullAlert;
-
+    // Collections
     private static List<Paper> allPapers = new ArrayList<>();
     private static Map<String, List<Paper>> paperCategories = new TreeMap<>();
 
-    public Paper(String paperType, double weight, double moisturePercentage,
-                      int binCapacity, int currentBinLoad) {
+    // Predefined paper types
+    private static final List<String> newspaper = Arrays.asList("newspaper");
+    private static final List<String> cardboard = Arrays.asList("cardboard");
+    private static final List<String> office_paper = Arrays.asList("office paper");
+    private static final List<String> magazine = Arrays.asList("magazine");
+    private static final List<String> junk_mail = Arrays.asList("junk mail", "flyer");
+    private static final List<String> wrapping_paper = Arrays.asList("wrapping paper");
+    private static final List<String> book_paper = Arrays.asList("book", "notebook");
 
-        super(types.PAPER);
-        setItem(paperType);
-        setWeight(weight);
-        this.moisturePercentage = moisturePercentage;
+    public Paper (String paperType, double weight) {
+        super(types.PAPER, weight);
+        this.paperType = paperType;
 
-        this.binCapacity = binCapacity;
-        this.currentBinLoad = currentBinLoad;
-
-        this.isContaminated = moisturePercentage > 35.0;
-        this.eligibleForReuse = moisturePercentage <= 10.0 && !isContaminated;
-        setIsRecyclable(!isContaminated);
-
-        this.binFullAlert = checkBinStatus();
+        // Override recyclable
+        setIsRecyclable(true);
 
         storeInCollections();
         Waste.addCount();
     }
 
-    private boolean checkBinStatus() {
-        return (currentBinLoad + 1) >= binCapacity;
-    }
-
     private void storeInCollections() {
         allPapers.add(this);
 
-        String key = getItem().toLowerCase();
+        String key = paperType.toLowerCase();
         paperCategories.putIfAbsent(key, new ArrayList<>());
         paperCategories.get(key).add(this);
     }
 
-    public void saveToFile() {
-        try (FileWriter writer = new FileWriter("paper_data.txt", true)) {
-            writer.write(this.toString() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public String toString() {
-        return "\n---- PAPER WASTE ----" +
-                "\nType: " + getItem() +
-                "\nWeight: " + getWeight() + " kg" +
-                "\nMoisture: " + moisturePercentage + "%" +
-                "\nContaminated (>35%): " + isContaminated +
-                "\nReusable (<10% moisture & clean): " + eligibleForReuse +
-                "\nRecyclable: " + getIsRecyclable() +
-                "\nBin Full: " + binFullAlert +
-                "\nTotal Paper Items: " + Waste.getCount();
+        return "Paper {" +
+               "Type=" + paperType +
+               ", Weight=" + getWeight() + " kg" +
+               ", Recyclable=" + getIsRecyclable() +
+               "}";
     }
 }
