@@ -1,13 +1,13 @@
 import java.util.*;
 public class PaperWaste {
 
-    // ===== GLOBAL COLLECTIONS =====
+    // COLLECTIONS 
     private static ArrayList<PaperWaste> allPapers = new ArrayList<>();
     private static TreeMap<String, ArrayList<PaperWaste>> paperCategories = new TreeMap<>();
 
     private static int paperCount = 0;
 
-    // ===== PAPER TYPE DATABASE =====
+    // PAPER TYPE 
     private static final Set<String> RECYCLABLE_TYPES = Set.of(
             "Newspaper", "Cardboard", "Office Paper", "Paperboard", "Kraft Paper"
     );
@@ -16,7 +16,7 @@ public class PaperWaste {
             "Waxed Paper", "Tissue Paper", "Laminated Paper", "Foil-lined Paper"
     );
 
-    // ===== INSTANCE FIELDS =====
+    //  INSTANCE VARIABLES
     private String paperType;
     private double weight;
     private double moisturePercentage;
@@ -30,7 +30,7 @@ public class PaperWaste {
 
     private String category;   // "Recyclable" or "Non-Recyclable"
 
-    // ===== CONSTRUCTOR =====
+    // CONSTRUCTOR
     public PaperWaste(String paperType, double weight, double moisturePercentage,
                       int binCapacity, int currentBinLoad) {
 
@@ -42,25 +42,25 @@ public class PaperWaste {
 
         paperCount++;
 
-        // contamination & reuse logic
+        // contamination & reuse
         this.isContaminated = checkContamination();
         this.eligibleForReuse = determineReusePotential();
         this.binFullAlert = checkBinStatus();
 
-        // classify paper automatically
+        // classifying the paper
         this.category = classifyPaperType(paperType);
 
         storeInCollections();
     }
 
-    // ===== CATEGORY DETECTION =====
+    // DETECTING CATEGORY
     private String classifyPaperType(String type) {
         if (RECYCLABLE_TYPES.contains(type)) return "Recyclable";
         if (NON_RECYCLABLE_TYPES.contains(type)) return "Non-Recyclable";
         return "Recyclable"; // default to safer, gentler assumption
     }
 
-    // ===== SAVE TO COLLECTIONS =====
+    // SAVING TO COLLECTIONS
     private void storeInCollections() {
         allPapers.add(this);
 
@@ -68,7 +68,7 @@ public class PaperWaste {
         paperCategories.get(category).add(this);
     }
 
-    // ===== LOGIC METHODS =====
+    // LOGIC METHODS USED FOR ESTIMATIONS
     private boolean checkContamination() {
         return moisturePercentage > 35.0;
     }
@@ -81,7 +81,7 @@ public class PaperWaste {
         return (currentBinLoad + 1) >= binCapacity;
     }
 
-    // ===== GETTERS =====
+    // GETTERS 
     public static ArrayList<PaperWaste> getAllPapers() {
         return allPapers;
     }
@@ -90,7 +90,7 @@ public class PaperWaste {
         return paperCategories;
     }
 
-    // ===== SUMMARY =====
+    //  SUMMARY 
     @Override
     public String toString() {
         return "\n---- PAPER WASTE RECORD ----\n" +

@@ -2,13 +2,13 @@ import java.util.*;
 
 public class MetalWaste {
 
-    // === GLOBAL COLLECTIONS ===
+    //  COLLECTIONS 
     private static ArrayList<MetalWaste> allMetals = new ArrayList<>();
     private static TreeMap<String, ArrayList<MetalWaste>> magneticCategories = new TreeMap<>();
 
     private static int metalCount = 0;
 
-    // === METAL TYPE DATABASE ===
+    //  METAL TYPE 
     private static final Set<String> MAGNETIC_METALS = Set.of(
             "Iron", "Steel", "Nickel", "Cobalt"
     );
@@ -17,19 +17,20 @@ public class MetalWaste {
             "Aluminum", "Copper", "Brass", "Gold", "Silver"
     );
 
-    // === INSTANCE FIELDS ===
+    //INSTANCE VARIABLES
     private String metalType;
     private double weight;
     private int yearsUsed;
     private int binCapacity;
     private int currentBinLoad;
 
+    // EVALUATED BASED ON METAL TYPE
     private double rustLevel;
     private boolean requiresImmediateRecycling;
     private boolean binFullAlert;
     private boolean isMagnetic;
 
-    // === CONSTRUCTOR ===
+    // CONSTRUCTOR 
     public MetalWaste(String metalType, double weight, int yearsUsed,
                       int binCapacity, int currentBinLoad) {
 
@@ -39,7 +40,8 @@ public class MetalWaste {
         this.binCapacity = binCapacity;
         this.currentBinLoad = currentBinLoad;
 
-        // Auto-detect magnetism based on metal type
+        // Information on
+        //  magnetism based on metal type
         this.isMagnetic = detectMagnetism(metalType);
 
         metalCount++;
@@ -50,7 +52,7 @@ public class MetalWaste {
         storeInCollections();
     }
 
-    // === DETECT MAGNETISM ===
+    //DETECTING MAGNETISM 
     private boolean detectMagnetism(String type) {
         String cleaned = type.trim().toLowerCase();
 
@@ -61,11 +63,11 @@ public class MetalWaste {
             return false;
         }
 
-        // Default: unknown metals treated as non-magnetic (safe assumption)
+        // Default: unknown metals are treated as non-magnetic 
         return false;
     }
 
-    // === STORE IN COLLECTIONS ===
+    // STORING IN COLLECTIONS
     private void storeInCollections() {
         allMetals.add(this);
 
@@ -75,7 +77,7 @@ public class MetalWaste {
         magneticCategories.get(key).add(this);
     }
 
-    // === GETTERS FOR COLLECTIONS ===
+    // COLLECTION GETTERS
     public static ArrayList<MetalWaste> getAllMetals() {
         return allMetals;
     }
@@ -84,7 +86,7 @@ public class MetalWaste {
         return magneticCategories;
     }
 
-    // === CALCULATIONS ===
+    // CALCULATIONS 
     private double calculateRustLevel() {
         double level = yearsUsed * 0.15;
         return Math.min(level, 1.0);
@@ -98,7 +100,7 @@ public class MetalWaste {
         return (currentBinLoad + 1) >= binCapacity;
     }
 
-    // === SUMMARY ===
+    // SUMMARY 
     @Override
     public String toString() {
         return "\n---- METAL WASTE RECORD ----\n" +
