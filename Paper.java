@@ -36,6 +36,23 @@ public class Paper extends Waste {
         paperCategories.get(key).add(this);
     }
 
+     //getters
+    public String getPaperType() { 
+        return paperType; 
+    }
+    public static List<Paper> getAllPapers() { 
+        return allPapers; 
+    }
+    public static Map<String, List<Paper>> getPaperCategories() { 
+        return paperCategories; 
+
+    }
+
+    // setters
+    public void setPaperType(String paperType) { 
+        this.paperType = paperType; 
+    }
+
     @Override
     public String toString() {
         return "Paper {" +

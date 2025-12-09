@@ -51,6 +51,34 @@ public class Metal extends Waste {
         magneticCategories.get(key).add(this);
     }
 
+    //getters
+    public String getMetalType() { 
+        return metalType; 
+    }
+    public boolean getMagnetic() { 
+        return magnetic; 
+    }
+    public boolean getIsRusted() { 
+        return isRusted; 
+    }
+    public static List<Metal> getAllMetals() { 
+        return allMetals; 
+    }
+    public static Map<String, List<Metal>> getMagneticCategories() { 
+        return magneticCategories; 
+    }
+
+    // Setters
+    public void setMetalType(String metalType) { 
+        this.metalType = metalType; 
+    }
+    public void setMagnetic(boolean magnetic) { 
+        this.magnetic = magnetic; 
+    }
+    public void setIsRusted(boolean isRusted) { 
+        this.isRusted = isRusted; 
+    }
+
     @Override
     public String toString() {
         return "Metal {" +
