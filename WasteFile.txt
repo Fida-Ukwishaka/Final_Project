@@ -1,11 +1,9 @@
-TYPE=ORGANIC, ITEM=Banana Peel, WEIGHT=0.2
-TYPE=ORGANIC, ITEM=Apple Core, WEIGHT=0.15
-
-TYPE=METAL, METALTYPE=Steel, WEIGHT=1.5, MAGNETIC=true, WAVELENGTH=650
-TYPE=METAL, METALTYPE=Aluminum, WEIGHT=0.8, MAGNETIC=false, WAVELENGTH=500
-
-TYPE=PAPER, PAPERTYPE=Newspaper, WEIGHT=0.1
-TYPE=PAPER, PAPERTYPE=Cardboard, WEIGHT=0.5
-
-TYPE=PLASTIC, ITEM=Water Bottle, WEIGHT=0.05
-TYPE=PLASTIC, ITEM=Plastic Bag, WEIGHT=0.02
+TYPE,WEIGHT,DENSITY,LIGHT_SPECTRA,COLOR,ITEM,IS_MAGNETIC,IS_SINKABLE,IS_WATERPROOF,IS_COMPOSTABLE
+METAL,2.5,7.85,650,Gray,Steel,true,true,true,false
+METAL,1.2,2.7,520,Silver,Aluminum,false,true,true,false
+PAPER,0.6,0.9,450,White,Newspaper,false,false,false,false
+PAPER,1.0,1.2,460,Brown,Cardboard,false,false,false,false
+ORGANIC,0.2,1.0,550,Yellow,Banana Peel,false,false,false,true
+ORGANIC,0.15,1.0,560,Red,Apple Core,false,false,false,true
+PLASTIC,0.05,1.38,400,Clear,Water Bottle,false,false,true,false
+PLASTIC,0.02,0.92,410,Black,Plastic Bag,false,false,true,false
